@@ -16,4 +16,15 @@ require_once("initialize.php")
     ?>
 </ul>
 
+<form action="create.php" method="POST">
+    <label for="">Product Name:</label>
+    <input name="Product" type="text">
+
+    <label for="price">Price:</label>
+    <input name="price" type="number" min="0" max="100,000,000">
+
+    <input type="submit">
+</form>
+
+
 </html>
