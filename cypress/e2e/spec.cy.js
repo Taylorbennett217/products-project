@@ -1,3 +1,4 @@
+import generateProduct from "../../util/generate-product";
 describe("template spec", () => {
 	it("passes", () => {
 		cy.visit("localhost/sites/products-project");
@@ -8,32 +9,36 @@ describe("template spec", () => {
 	});
 });
 
-it("creates a testimonial", () => {
-	cy.visit("localhost/sites/testimonials-project");
+it("creates a product", () => {
+	cy.visit("localhost/sites/products-project");
 
 	cy.get("form").should("be.visible");
 
-	const fakeTestimonial = generateTestimonial();
-	//const { feedback: testFeedback, rating: testRating } = fakeTestimonial;
+	const fakeProduct = generateProduct();
 
-	const testFeedback = fakeTestimonial.feedback;
-	const testRating = fakeTestimonial.rating;
-	//const testFeedback = "Example feedback";
-	//const testRating = 5;
-	cy.get("form input[name=feedback]").type(testFeedback);
-	cy.get("form input[name=rating").type(testRating);
+	const testProduct = fakeProduct.product;
+	const testPrice = fakeProduct.price;
+	const testInventoryCount = fakeProduct.inventoryCount;
 
-	cy.get("form input[type=submit").click();
+	cy.get("form input[name=product]").type(testProduct);
+	cy.get("form input[name=price]").type(testPrice);
+	cy.get("form input[name=inventoryCount]").type(testInventoryCount);
 
-	cy.url().should("eq", "http://localhost/sites/testimonials-project/create.php");
+	cy.get("form input[type=submit]").click();
 
-	cy.contains("Testimonial Created!");
+	cy.url().should("eq", "http://localhost/sites/products-project/create.php");
 
-	cy.get("a").should("have.text", "Return to Testimonials").click();
+	cy.contains("Product Created!");
 
-	cy.url().should("eq", "http://localhost/sites/testimonials-project/index.php");
+	cy.get("a").should("have.text", "Return to Products").click();
 
-	cy.get("ul[name=testimonials-list] li")
+	cy.url().should("eq", "http://localhost/sites/products-project/index.php");
+
+	cy.get("ul[name=products-list] li")
 		.last()
-		.should("have.text", `${testFeedback} ${testRating}/5`);
+		.should("have.text", `${testProduct} ${testPrice} ${testInventoryCount}`);
+
+	//cy.get("ul[name=products-list] li").last().should("contain.text", testProduct);
+	//cy.get("ul[name=products-list] li").last().should("contain.text", testPrice);
+	//cy.get("ul[name=products-list] li").last().should("contain.text", testInventoryCount);
 });
